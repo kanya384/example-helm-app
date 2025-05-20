@@ -52,3 +52,5 @@ bin/
 .DS_Store
 
 .env
+
+jenkins/jenkins_home

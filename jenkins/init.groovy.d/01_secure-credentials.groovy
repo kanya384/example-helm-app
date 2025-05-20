@@ -10,7 +10,6 @@ def env = System.getenv()
 
 def githubUsername = env['GITHUB_USERNAME']
 def githubToken = env['GITHUB_TOKEN']
-def ghcrToken = env['GHCR_TOKEN']
 def dockerRegistry = env['DOCKER_REGISTRY']
 def dbPassword = env['DB_PASSWORD']
 def dockerHubUsername = env['DOCKER_HUB_USERNAME']
@@ -47,7 +46,7 @@ if (githubUsername) {
 }
 
 // Создаём токен доступа к GHCR (GitHub Container Registry)
-if (dockerHubUsername && dockerHubPassword) {
+if (dockerHubUsername) {
     println "--> Creating credential: docker hub creds"
     def dockerHubUsernameCred = new StringCredentialsImpl(
             CredentialsScope.GLOBAL,
@@ -56,13 +55,15 @@ if (dockerHubUsername && dockerHubPassword) {
             Secret.fromString(dockerHubUsername)
     )
 
+    store.addCredentials(Domain.global(), dockerHubUsernameCred)
+
     def dockerHubPasswordCred = new StringCredentialsImpl(
             CredentialsScope.GLOBAL,
             "DOCKER_HUB_PASSWORD",
             "DOCKER_HUB_PASSWORD token from ENV",
             Secret.fromString(dockerHubPassword)
     )
-    store.addCredentials(Domain.global(), dockerHubPassword)
+    store.addCredentials(Domain.global(), dockerHubPasswordCred)
 }
 
 // Создаём строковый креденшл с адресом docker-реестра (например, ghcr.io/username)
