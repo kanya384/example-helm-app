@@ -41,9 +41,9 @@ pipeline {
 
         stage('Push Docker Images') {
             steps {
-                withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
+                withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'DOCKER_HUB_PASSWORD')]) {
                     sh """
-                    echo \$GHCR_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
+                    echo \$DOCKER_HUB_PASSWORD | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin
                     docker push ${DOCKER_REGISTRY}/customer-service:${IMAGE_TAG}
                     docker push ${DOCKER_REGISTRY}/order-service:${IMAGE_TAG}
                     """
