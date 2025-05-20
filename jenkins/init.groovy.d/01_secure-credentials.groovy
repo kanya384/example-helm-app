@@ -45,7 +45,7 @@ if (githubUsername) {
     store.addCredentials(Domain.global(), usernameCred)
 }
 
-// Создаём токен доступа к GHCR (GitHub Container Registry)
+// Создаём креды доступа к DOCKER HUB
 if (dockerHubUsername) {
     println "--> Creating credential: docker hub creds"
     def dockerHubUsernameCred = new StringCredentialsImpl(
